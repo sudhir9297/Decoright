@@ -1,69 +1,131 @@
-import Content from '@/components/Content'
-import Loader from '@/components/Loader'
-import Model from '@/components/Model'
-import Trigger from '@/components/Trigger'
-import { Canvas } from '@react-three/fiber/native'
-import { StatusBar } from 'expo-status-bar'
-import useControls from 'r3f-native-orbitcontrols'
-import { Suspense, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-
-// need to cleanUp
+import React, { useEffect, useState } from 'react'
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  SectionList,
+} from 'react-native'
 import { ProductList } from '@/constants/productData'
+import { CapitalizeSentence, getAllProductRecursion } from '@/constants/utils'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import SingleProduct from '@/components/SingleProduct'
+import { StatusBar } from 'expo-status-bar'
 
-export default function Index() {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [OrbitControls, events] = useControls()
+const CategoryList = [
+  'All',
+  ...Object.entries(ProductList).map(([name]) => CapitalizeSentence(name)),
+]
 
-  const [currentVariation, setActiveVariation] = useState(
-    ProductList.chairs.vitra_eames.variation[0]
+const App = () => {
+  const [currentCategory, setCurrentCategory] = useState<string>(
+    CategoryList[0]
   )
+  const [productArray, setProductArray] = useState<any>([])
 
-  const handleTexture = (currentVariation: any) => {
-    setActiveVariation(currentVariation)
+  useEffect(() => {
+    if (currentCategory === 'All') {
+      const allProduct = getAllProductRecursion(ProductList)
+      setProductArray(allProduct)
+    } else {
+      const selectedCatProduct = Object.entries(ProductList).filter(
+        (el) => el[0] === currentCategory.toLowerCase()
+      )[0][1]
+      setProductArray(Object.values(selectedCatProduct))
+    }
+
+    return () => {}
+  }, [currentCategory])
+
+  const handleCategoryClick = (category: string) => {
+    setCurrentCategory(category)
   }
+
+  const renderItem = ({ item }: any) => (
+    <TouchableOpacity
+      onPress={() => handleCategoryClick(item)}
+      style={styles.item}
+    >
+      <Text
+        style={item === currentCategory ? styles.activeTitle : styles.title}
+      >
+        {item}
+      </Text>
+    </TouchableOpacity>
+  )
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar animated style="dark" />
-      <View style={styles.canvasContainer} {...events}>
-        {loading && <Loader />}
-        <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
-          <OrbitControls enablePan={false} />
-
-          <directionalLight position={[1, 0, 0]} args={['white', 2]} />
-          <directionalLight position={[-1, 0, 0]} args={['white', 2]} />
-          <directionalLight position={[0, 0, 1]} args={['white', 2]} />
-          <directionalLight position={[0, 0, -1]} args={['white', 2]} />
-          <directionalLight position={[0, 1, 0]} args={['white', 15]} />
-          <directionalLight position={[0, -1, 0]} args={['white', 2]} />
-          <Suspense fallback={<Trigger setLoading={setLoading} />}>
-            <Model currentVariation={currentVariation} />
-          </Suspense>
-        </Canvas>
+      <StatusBar animated style="inverted" />
+      <FlatList
+        data={CategoryList}
+        renderItem={renderItem}
+        keyExtractor={(item) => item}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      />
+      <View style={styles.filterWrapper}>
+        <Text style={styles.totalProductText}>
+          {productArray.length} Product
+        </Text>
+        <View>
+          <Text>Popular</Text>
+        </View>
       </View>
-      <Content handleTexture={handleTexture} />
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.itemWrapper}>
+          {productArray.map((item: any) => (
+            <SingleProduct keys={item} item={item} />
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#f6f6f6',
+    paddingHorizontal: 10,
   },
-  canvasContainer: {
-    flex: 1,
+  item: {
+    paddingVertical: 15,
+    paddingRight: 40,
+    marginVertical: 4,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
-  contentWrapper: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#bfbfc0',
+  },
+  activeTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#161616',
   },
 
-  contentContainer: {
-    padding: 25,
+  filterWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+  },
+  totalProductText: {
+    fontSize: 14,
+    color: '#797979',
+  },
+
+  itemWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 })
+
+export default App
