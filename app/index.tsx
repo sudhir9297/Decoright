@@ -1,24 +1,37 @@
+import Content from '@/components/Content'
+import Loader from '@/components/Loader'
+import Model from '@/components/Model'
+import Trigger from '@/components/Trigger'
 import { Canvas } from '@react-three/fiber/native'
-import { Text, View, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 import useControls from 'r3f-native-orbitcontrols'
 import { Suspense, useState } from 'react'
-import Model from '@/components/Model'
-import Loader from '@/components/Loader'
-import Trigger from '@/components/Trigger'
-import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+// need to cleanUp
+import { ProductList } from '@/constants/productData'
 
 export default function Index() {
   const [loading, setLoading] = useState<boolean>(false)
   const [OrbitControls, events] = useControls()
+
+  const [currentVariation, setActiveVariation] = useState(
+    ProductList.chairs.vitra_eames.variation[0]
+  )
+
+  const handleTexture = (currentVariation: any) => {
+    setActiveVariation(currentVariation)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated style="dark" />
       <View style={styles.canvasContainer} {...events}>
         {loading && <Loader />}
-        <Canvas>
-          <OrbitControls />
+        <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
+          <OrbitControls enablePan={false} />
+
           <directionalLight position={[1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[-1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[0, 0, 1]} args={['white', 2]} />
@@ -26,15 +39,11 @@ export default function Index() {
           <directionalLight position={[0, 1, 0]} args={['white', 15]} />
           <directionalLight position={[0, -1, 0]} args={['white', 2]} />
           <Suspense fallback={<Trigger setLoading={setLoading} />}>
-            <Model />
+            <Model currentVariation={currentVariation} />
           </Suspense>
         </Canvas>
       </View>
-      <View style={styles.contentWrapper}>
-        <View style={styles.contentContainer}>
-          <Text>Hello</Text>
-        </View>
-      </View>
+      <Content handleTexture={handleTexture} />
     </SafeAreaView>
   )
 }
