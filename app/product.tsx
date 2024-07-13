@@ -13,6 +13,7 @@ import { useLocalSearchParams } from 'expo-router'
 // need to cleanUp
 import { ProductList } from '@/constants/productData'
 import { getProductRecursively } from '@/constants/utils'
+import { Environment } from '@react-three/drei/core'
 
 export default function Index() {
   const [OrbitControls, events] = useControls()
@@ -45,15 +46,19 @@ export default function Index() {
         {loading && <Loader />}
         <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
           <OrbitControls enablePan={false} />
+          <Environment preset="city" />
 
-          <directionalLight position={[1, 0, 0]} args={['white', 2]} />
+          {/* <directionalLight position={[1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[-1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[0, 0, 1]} args={['white', 2]} />
           <directionalLight position={[0, 0, -1]} args={['white', 2]} />
           <directionalLight position={[0, 1, 0]} args={['white', 15]} />
-          <directionalLight position={[0, -1, 0]} args={['white', 2]} />
+          <directionalLight position={[0, -1, 0]} args={['white', 2]} /> */}
           <Suspense fallback={<Trigger setLoading={setLoading} />}>
-            <Model currentVariation={currentVariation} />
+            <Model
+              currentVariation={currentVariation}
+              currentProduct={currentProduct}
+            />
           </Suspense>
         </Canvas>
       </View>

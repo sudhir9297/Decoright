@@ -2,6 +2,7 @@ export const ProductList = {
   chairs: {
     vitra_eames: {
       id: 1,
+      glbLink: require('../assets/models/vitra_eames_chair.glb'),
       name: 'Vitra Eames',
       desc: 'A modern take on tradition',
       thumbnail: require('../assets/texture/productThumbnail/vitra_eames.png'),
@@ -69,7 +70,7 @@ export const ProductList = {
         {
           id: '003',
           name: 'Three',
-          thumbnail: require('../assets/texture/fabric18.jpg'),
+          thumbnail: require('../assets/texture/fabric3.jpg'),
           varDesc: 'Three Variation',
           price: 3000,
           varData: {
@@ -99,6 +100,177 @@ export const ProductList = {
       ],
     },
   },
-  sofa: {},
-  table: {},
+  sofa: {
+    single_seater: {
+      id: 12,
+      name: 'Single Seater ',
+      glbLink: require('../assets/models/single_seater.glb'),
+      desc: 'A modern take on tradition',
+      thumbnail: require('../assets/texture/fabric1.jpg'),
+      variation: [
+        {
+          id: 'TAB001',
+          name: 'Oak',
+          thumbnail: require('../assets/texture/fabric15.jpg'),
+          varDesc: 'One Variation',
+          price: 6000,
+          varData: {
+            seat_cushion: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric15.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+            sofa: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric1.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+        {
+          id: 'SOFA002',
+          name: 'Oak',
+          thumbnail: require('../assets/texture/fabric10.jpg'),
+          varDesc: 'One Variation',
+          price: 8000,
+          varData: {
+            seat_cushion: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric10.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+            sofa: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric5.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+        {
+          id: 'SOFA007',
+          name: 'Oak',
+          thumbnail: require('../assets/texture/fabric14.jpg'),
+          varDesc: 'One Variation',
+          price: 7000,
+          varData: {
+            seat_cushion: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric14.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+            sofa: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric13.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+        {
+          id: 'SOFA00677',
+          name: 'Oak',
+          thumbnail: require('../assets/texture/fabric22.png'),
+          varDesc: 'One Variation',
+          price: 10000,
+          varData: {
+            seat_cushion: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric22.png'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+            sofa: {
+              color: '#ffffff',
+              map: require('../assets/texture/fabric20.jpg'),
+              metalness: 0.132,
+              roughness: 0.722727,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+      ],
+    },
+  },
+  table: {
+    round_table: {
+      id: 1,
+      name: 'Round Table',
+      glbLink: require('../assets/models/round_table.glb'),
+      desc: 'A modern take on tradition',
+      thumbnail: require('../assets/texture/productThumbnail/vitra_eames.png'),
+      variation: [
+        {
+          id: 'TAB001',
+          name: 'Oak',
+          thumbnail: require('../assets/texture/wood1.jpg'),
+          varDesc: 'One Variation',
+          price: 2000,
+          varData: {
+            round_table: {
+              color: '#ffffff',
+              map: require('../assets/texture/wood1.jpg'),
+              metalness: 0.055,
+              roughness: 0.354545,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+        {
+          id: '002',
+          name: 'Two',
+          thumbnail: require('../assets/texture/wood5.jpg'),
+          varDesc: 'Two Variation',
+          price: 4000,
+          varData: {
+            round_table: {
+              color: '#ffffff',
+              map: require('../assets/texture/wood5.jpg'),
+              metalness: 0.0001,
+              roughness: 0.1,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+        {
+          id: '003',
+          name: 'Three',
+          thumbnail: require('../assets/texture/wood3.jpg'),
+          varDesc: 'Three Variation',
+          price: 3000,
+          varData: {
+            round_table: {
+              color: '#ffffff',
+              map: require('../assets/texture/wood3.jpg'),
+              metalness: 0.055,
+              roughness: 0.354545,
+              repeatX: 1,
+              repeatY: 1,
+            },
+          },
+        },
+      ],
+    },
+  },
 }

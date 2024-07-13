@@ -7,9 +7,7 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & any
 
 const Model = (props: any) => {
-  const gltf = useGLTF(
-    require('../assets/models/vitra_eames_chair.glb')
-  ) as GLTFResult
+  const gltf = useGLTF(props.currentProduct.glbLink) as GLTFResult
   const { scene: Scene } = useThree()
   const TextureLoader = new THREE.TextureLoader()
   TextureLoader.setCrossOrigin('*')
@@ -18,7 +16,7 @@ const Model = (props: any) => {
     Scene.traverse((obj: any) => {
       Object.entries(props.currentVariation.varData).forEach(
         ([name, data]: any) => {
-          if (name === obj.name) {
+          if (name === obj.name && obj.type === 'Mesh') {
             if (data.map) {
               const albedoMap = TextureLoader.load(data.map)
               albedoMap.repeat.set(data.repeatX, data.repeatY)
@@ -27,7 +25,6 @@ const Model = (props: any) => {
               albedoMap.colorSpace = THREE.SRGBColorSpace
               obj.material.map = albedoMap
             }
-
             obj.material.color = new THREE.Color(
               data.color
             ).convertSRGBToLinear()

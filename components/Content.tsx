@@ -6,7 +6,7 @@ const Content = ({ currentProduct, currentVariation, handleTexture }: any) => {
     <View style={styles.contentWrapper}>
       <View style={styles.contentContainer}>
         <View>
-          <Text style={styles.title}>Product Name</Text>
+          <Text style={styles.title}>{currentProduct.name}</Text>
           <Text style={styles.desc}>{currentVariation.varDesc}</Text>
         </View>
 
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   variationImage: {
     width: '100%',
     height: '100%',
-    objectFit: 'contain',
+    objectFit: 'cover',
     borderRadius: 20,
   },
 })
