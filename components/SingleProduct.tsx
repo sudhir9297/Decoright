@@ -1,18 +1,26 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { useRouter } from 'expo-router'
 
 const SingleProduct = ({ item }: any) => {
+  const router = useRouter()
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        router.push({
+          pathname: '/product',
+          params: { productName: item[0] },
+        })
+      }
+    >
       <View style={styles.imageContainer}>
-        <Image
-          source={require('../assets/texture/fabric1.jpg')}
-          style={styles.image}
-        />
+        <Image source={item[1].thumbnail} style={styles.image} />
       </View>
-      <Text style={styles.title}>{item.name}</Text>
-      <Text style={styles.desc}>{item.desc}</Text>
-    </View>
+      <Text style={styles.title}>{item[1].name}</Text>
+      <Text style={styles.desc}>{item[1].desc}</Text>
+    </TouchableOpacity>
   )
 }
 
@@ -26,7 +34,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 15,
     marginBottom: 10,
-    borderRadius: 15,
+    borderRadius: 10,
   },
 
   imageContainer: {
@@ -39,16 +47,17 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+    objectFit: 'contain',
   },
 
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#161616',
+    marginBottom: 4,
   },
   desc: {
     fontSize: 14,
-
-    color: '#161616',
+    color: '#9b9a99',
   },
 })

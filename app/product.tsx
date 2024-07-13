@@ -5,23 +5,37 @@ import Trigger from '@/components/Trigger'
 import { Canvas } from '@react-three/fiber/native'
 import { StatusBar } from 'expo-status-bar'
 import useControls from 'r3f-native-orbitcontrols'
-import { Suspense, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Suspense, useEffect, useState } from 'react'
+import { StyleSheet, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useLocalSearchParams } from 'expo-router'
 
 // need to cleanUp
 import { ProductList } from '@/constants/productData'
+import { getProductRecursively } from '@/constants/utils'
 
 export default function Index() {
-  const [loading, setLoading] = useState<boolean>(false)
   const [OrbitControls, events] = useControls()
+  const { productName } = useLocalSearchParams()
 
-  const [currentVariation, setActiveVariation] = useState(
-    ProductList.chairs.vitra_eames.variation[0]
-  )
+  const [loading, setLoading] = useState<boolean>(false)
+  const [currentProduct, setCurrentProduct] = useState(null)
+  const [currentVariation, setActiveVariation] = useState(null)
+
+  useEffect(() => {
+    const product = getProductRecursively(ProductList, productName)
+
+    setCurrentProduct(product)
+    setActiveVariation(product.variation[0])
+    return () => {}
+  }, [productName])
 
   const handleTexture = (currentVariation: any) => {
     setActiveVariation(currentVariation)
+  }
+
+  if (currentProduct === null) {
+    return <Loader />
   }
 
   return (
@@ -43,7 +57,11 @@ export default function Index() {
           </Suspense>
         </Canvas>
       </View>
-      <Content handleTexture={handleTexture} />
+      <Content
+        currentProduct={currentProduct}
+        currentVariation={currentVariation}
+        handleTexture={handleTexture}
+      />
     </SafeAreaView>
   )
 }

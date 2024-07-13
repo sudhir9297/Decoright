@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
   ScrollView,
   SectionList,
+  Button,
 } from 'react-native'
 import { ProductList } from '@/constants/productData'
-import { CapitalizeSentence, getAllProductRecursion } from '@/constants/utils'
+import { CapitalizeSentence, getItems } from '@/constants/utils'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SingleProduct from '@/components/SingleProduct'
 import { StatusBar } from 'expo-status-bar'
@@ -23,17 +24,15 @@ const App = () => {
   const [currentCategory, setCurrentCategory] = useState<string>(
     CategoryList[0]
   )
-  const [productArray, setProductArray] = useState<any>([])
+  const [currentCatItem, setCurrentCatItem] = useState<any>({})
 
   useEffect(() => {
     if (currentCategory === 'All') {
-      const allProduct = getAllProductRecursion(ProductList)
-      setProductArray(allProduct)
+      const allItem = getItems(ProductList)
+      setCurrentCatItem(allItem)
     } else {
-      const selectedCatProduct = Object.entries(ProductList).filter(
-        (el) => el[0] === currentCategory.toLowerCase()
-      )[0][1]
-      setProductArray(Object.values(selectedCatProduct))
+      const allItem = getItems(ProductList, currentCategory.toLowerCase())
+      setCurrentCatItem(allItem)
     }
 
     return () => {}
@@ -56,6 +55,8 @@ const App = () => {
     </TouchableOpacity>
   )
 
+  const currentCatItemsList = Object.entries(currentCatItem)
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated style="inverted" />
@@ -69,7 +70,7 @@ const App = () => {
       />
       <View style={styles.filterWrapper}>
         <Text style={styles.totalProductText}>
-          {productArray.length} Product
+          {currentCatItemsList.length} Product
         </Text>
         <View>
           <Text>Popular</Text>
@@ -78,8 +79,8 @@ const App = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.itemWrapper}>
-          {productArray.map((item: any) => (
-            <SingleProduct keys={item} item={item} />
+          {currentCatItemsList.map((item) => (
+            <SingleProduct key={item[0]} item={item} />
           ))}
         </View>
       </ScrollView>
