@@ -3,17 +3,16 @@ import Loader from '@/components/Loader'
 import Model from '@/components/Model'
 import Trigger from '@/components/Trigger'
 import { Canvas } from '@react-three/fiber/native'
+import { useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import useControls from 'r3f-native-orbitcontrols'
 import { Suspense, useEffect, useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useLocalSearchParams } from 'expo-router'
 
 // need to cleanUp
 import { ProductList } from '@/constants/productData'
 import { getProductRecursively } from '@/constants/utils'
-import { Environment } from '@react-three/drei/core'
 
 export default function Index() {
   const [OrbitControls, events] = useControls()
@@ -44,16 +43,16 @@ export default function Index() {
       <StatusBar animated style="dark" />
       <View style={styles.canvasContainer} {...events}>
         {loading && <Loader />}
-        <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
-          <OrbitControls enablePan={false} />
-          <Environment preset="city" />
 
-          {/* <directionalLight position={[1, 0, 0]} args={['white', 2]} />
+        <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
+          <OrbitControls enablePan={true} />
+
+          <directionalLight position={[1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[-1, 0, 0]} args={['white', 2]} />
           <directionalLight position={[0, 0, 1]} args={['white', 2]} />
           <directionalLight position={[0, 0, -1]} args={['white', 2]} />
-          <directionalLight position={[0, 1, 0]} args={['white', 15]} />
-          <directionalLight position={[0, -1, 0]} args={['white', 2]} /> */}
+          <directionalLight position={[0, 1, 0]} args={['white', 10]} />
+          <directionalLight position={[0, -1, 0]} args={['white', 2]} />
           <Suspense fallback={<Trigger setLoading={setLoading} />}>
             <Model
               currentVariation={currentVariation}

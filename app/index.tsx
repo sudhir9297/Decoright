@@ -60,21 +60,21 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated style="inverted" />
-      <FlatList
-        data={CategoryList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.container}
-      />
+      <View>
+        <FlatList
+          data={CategoryList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+        />
+      </View>
+
       <View style={styles.filterWrapper}>
         <Text style={styles.totalProductText}>
           {currentCatItemsList.length} Product
         </Text>
-        <View>
-          <Text>Popular</Text>
-        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -93,14 +93,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   item: {
-    paddingVertical: 15,
     paddingRight: 40,
-    marginVertical: 4,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    marginBottom: 5,
+    marginTop: 20,
   },
   title: {
     fontSize: 30,
+    paddingVertical: 10,
     fontWeight: 'bold',
     color: '#bfbfc0',
   },
@@ -108,14 +107,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: '#161616',
+    paddingVertical: 10,
   },
 
   filterWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    padding: 10,
   },
   totalProductText: {
     fontSize: 14,
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
 
   itemWrapper: {
     width: '100%',
+    paddingBottom: 160,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
