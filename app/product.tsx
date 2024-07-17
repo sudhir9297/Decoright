@@ -78,14 +78,4 @@ const styles = StyleSheet.create({
   canvasContainer: {
     flex: 1,
   },
-  contentWrapper: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-  },
-
-  contentContainer: {
-    padding: 25,
-  },
 })
